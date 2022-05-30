@@ -1,0 +1,49 @@
+pipeline {
+  agent any
+  environment { 
+    DOCKERHUB_WRITE = credentials('geoanka-dockerhub')
+    DOCKERHUB_READ = credentials('jenkins-read')
+  }
+  stages {
+    stage('Parallel Stages Build') {
+      parallel {
+        stage('Dev') {
+          when {
+            branch 'Dev'
+          }
+          stages {
+            stage('Build Projects') {
+              steps {
+                echo 'build is starting..'
+                sh './jenkins/build/build.sh'
+                echo 'build is success'
+              }
+            }
+            stage('Build Images And Registery') {
+              steps {
+                echo 'Preparing images'
+                sh './jenkins/registery/registry.sh'
+                echo 'Images Pushed'
+              }
+            }
+            stage('Update Server Services') {
+              steps {
+                echo 'server is updating'
+                sh './jenkins/docker/update.sh'
+                echo 'server is updated'
+              }
+            }
+            stage('Monitoring Services ') {
+              steps {
+                echo 'server is updating'
+                sh './jenkins/docker/monitoring.sh'
+                echo 'server is updated'
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
