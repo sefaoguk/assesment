@@ -2,7 +2,9 @@
 
 
 
-nohup ./first.sh >/dev/null 2>&1
+
+echo $(date +%S)
+
 
 while :
 do
@@ -12,5 +14,4 @@ echo "Hello World ! " >> hello.txt
 echo "Ekleme Başarılı !"
 
 done
-
 
