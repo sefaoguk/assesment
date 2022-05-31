@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+#Deployment türünde bir obje oluşmasını sağlar
+kind: Deployment
+metadata:
+# Uygulamanın ismininv verildiği kısımdır.
+  name: assesment
+# Podlarımızın oluştuğu kısımdır.  
+spec:
+  selector:
+    matchLabels:
+      app: assesment
+  template:
+    metadata:
+    # servicelerin ve nodeların birbirleri ile haberleşmesi için oluşturulan label etiketleridir.
+      labels:
+        app: assesment
+    spec:
+    # Podumuzun içerisinde containerın bilgilerinin bulunduğu kısımdır.
+      containers:
+      # containerımızın ismi
+      - name: assesment
+      # Containerın kullanacağı image
+        image: geoanka/assesment-devops:master_2
+      # containerın içerisindeki nginx'in yayın için kullnacağı port
+        ports:
+        - containerPort: 80
+      # dockerhub'taki private imageleri çekebilmesi için gerekli olan secret burada tanımlanmaktadır.
+      imagePullSecrets:
+      - name: regcred

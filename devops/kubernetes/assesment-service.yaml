@@ -1,0 +1,18 @@
+apiVersion: v1
+# Service tipinde bir objenin oluşması istenmektedir.
+kind: Service
+# Objenin isminin verildği yerdir
+metadata:
+  name: assesment
+spec:
+# Objenin tipinin verildiği kısımdır. -NodePort, ClusterIP, ExternalName, Loadbalancer  -
+  type: NodePort
+  # Deployment tarafındaki label etiketinin burası ile eşleşerek birbirleri arasındaki ilişkiyi sağlayan selector.
+  selector:
+    app: assesment
+  ports:
+    - protocol: TCP
+      # Service'in yayın alacağı porttur.
+      port: 80
+      # Container içerisindeki hedef alınan porttur
+      targetPort: 80

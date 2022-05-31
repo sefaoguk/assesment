@@ -1,17 +1,21 @@
 pipeline {
   agent any
   environment { 
+    // Jenkins tarafında credentials tanımlanarak dockerhub'a giriş izni verilmektedir. Jenkins içerisinde bu tokenler github'a karşılık gelmektedir.
     DOCKERHUB_WRITE = credentials('geoanka-dockerhub')
     DOCKERHUB_READ = credentials('jenkins-read')
   }
   stages {
     stage('Parallel Stages Build') {
       parallel {
+        // Stage'imizin ismidir - Proje ismi gibi - 
         stage('master') {
           when {
+            // operasyonun yapılacağı branchtir.
             branch 'master'
           }
           stages {
+            // Buildin alındığı stage'tir. Jenkins içerisindeki build dosyasına giderek oradaki file'da tanımlanan işlemleri yapar.
             stage('Build Projects') {
               steps {
                 echo 'build is starting..'
@@ -19,6 +23,7 @@ pipeline {
                 echo 'build is success'
               }
             }
+             // Dockerhub'a pushlanılmasını sağlayan stage'tir. Jenkins içerisindeki regitry dosyasına giderek oradaki file'da tanımlanan işlemleri yapar.
             stage('Build Images And Registery') {
               steps {
                 echo 'Preparing images'
@@ -26,17 +31,19 @@ pipeline {
                 echo 'Images Pushed'
               }
             }
+             // Sunucudaki uygulamanın güncellenmesini sağlayan stage'tir. Jenkins içerisindeki build dosyasına giderek oradaki file'da tanımlanan işlemleri yapar.
             stage('Update Server Services') {
               steps {
                 echo 'server is updating'
-                sh './jenkins/docker/update.sh'
+                sh './jenkins/update/update.sh'
                 echo 'server is updated'
               }
             }
+             // System Monitoring için gerekli işlemlerin yapıldığı stagetir.
             stage('Monitoring Services ') {
               steps {
                 echo 'server is updating'
-                sh './jenkins/docker/monitoring.sh'
+                sh './jenkins/monitoring/monitoring.sh'
                 echo 'server is updated'
               }
             }
