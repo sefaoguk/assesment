@@ -7,9 +7,9 @@ pipeline {
   stages {
     stage('Parallel Stages Build') {
       parallel {
-        stage('Dev') {
+        stage('master') {
           when {
-            branch 'Dev'
+            branch 'master'
           }
           stages {
             stage('Build Projects') {
