@@ -5,8 +5,8 @@ kind: Service
 metadata:
   name: assesment
 spec:
-# Objenin tipinin verildiği kısımdır. -NodePort, ClusterIP, ExternalName, Loadbalancer  -
-  type: NodePort
+# Objenin tipinin verildiği kısımdır. Ingress yöntemi için default ClusterIp veriliyor ancak yine de eklendi  -NodePort, ClusterIP, ExternalName, Loadbalancer  -
+  type: ClusterIP
   # Deployment tarafındaki label etiketinin burası ile eşleşerek birbirleri arasındaki ilişkiyi sağlayan selector.
   selector:
     app: assesment
