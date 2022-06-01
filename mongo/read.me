@@ -1,0 +1,33 @@
+
+######################################################################################
+
+				MONGO DB QUERY
+
+#######################################################################################
+
+* 1 Nisandan büyük olan insert_date'lere göre GSM'leri getiren mongodb sorgusu için aşağıdaki komutu kullanınız.
+
+	-> db.assesment.find({"insert_date" : { $gte : ISODate("2022-04-12T20:15:31Z") }},{password:0,_id:0,insert_date:0});
+
+
+
+
+
+
+
+
+
+#######################################################################################
+					MY STEPS
+#######################################################################################
+
+* Öncelikli olarak database'in bulunacağı folder bulunduğumuz dizinde oluşturuşturulur.
+* sonrasıda mongo-run.sh dosyası ile datebase'imiz ayağa kaldırılır.
+* Ayağa kaldırdıktan sonra 'docker exec' ile içerisine girilir
+* container içerisinde iken 'mongo' yazılarak databaselerin olduğu kısıma geçilmiş olur.
+* ' db.createCollection("assesment"); ' komutu ile istenilen isimde table oluşturulur.
+* collection yanlış oluşturulduğu takdirde ' db.assesment.drop(); ' komutu ile silinebilir.
+* Oluşturulan assesment'a veri eklemek için bir obje tanımlayıp değişkene atılır. 		- value={key:'value'} -
+* Bu değişkendeki verileri eklemek için - db.assesment.insert(value) - komutu ile istenilen table'a eklenir.
+* İstenilen veriyi bulabilmek için db.assesment.find({key:value}) ile arama yapılabilir.
+* Verileri getirirken bazı sütunların gelmesi istenmiyor ise db.assesment.find({},{key_1:0,key_2:0}) şeklinde sorgu yazılabilir.  
